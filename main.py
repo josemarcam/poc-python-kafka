@@ -3,14 +3,16 @@ from kafka_service import CoreKafka
 
 app: Typer = Typer()
 
-SERVER_ADDRESS = ''
+SERVER_ADDRESS = 'localhost:29092'
 
 @app.command()
 def produce(message: str, topic: str):
     echo(f"Produce message {message} at topic {topic}")
     core_kafka = CoreKafka(SERVER_ADDRESS)
     producer = core_kafka.producer()
-    producer.send(topic, message)
+    producer.send(topic, {"payload": {
+        "user_id": 1
+    }})
     echo("Message sent")
     
 
